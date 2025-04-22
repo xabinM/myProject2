@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/my_project2?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/my_project2
     username: root
     password: ssafy
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,6 +13,6 @@ spring:
     init:
       mode: always  # 애플리케이션 시작 시 스키마를 자동으로 초기화하려면 'always'로 설정
   # (Optional) DataSource, JPA 관련 추가 설정
-
-
-  # my SQL 연결안됨
+jwt:
+  secret: S3cr3tK3yForJWT     # 토큰 서명용 비밀키
+  expirationMs: 3600000      # 토큰 만료 시간 (ms 단위, 예: 1시간)
