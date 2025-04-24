@@ -14,5 +14,5 @@ spring:
       mode: always  # 애플리케이션 시작 시 스키마를 자동으로 초기화하려면 'always'로 설정
   # (Optional) DataSource, JPA 관련 추가 설정
 jwt:
-  secret: S3cr3tK3yForJWT1234567890123456     # 토큰 서명용 비밀키
+  secret: myVeryVerySecureSecretKey12345678901234567890     # 토큰 서명용 비밀키
   expirationMs: 3600000      # 토큰 만료 시간 (ms 단위, 예: 1시간)
