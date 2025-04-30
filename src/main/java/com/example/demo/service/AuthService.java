@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.member.Member;
-import com.example.demo.dto.SignUpResponse;
 import com.example.demo.dto.SignupRequest;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.security.JwtTokenProvider;
-import jakarta.validation.Valid;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
