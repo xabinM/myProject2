@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate  # 개발 중에는 'update'로 설정, 프로덕션에서는 'none' 또는 'validate' 추천
+      ddl-auto: update  # 개발 중에는 'update'로 설정, 프로덕션에서는 'none' 또는 'validate' 추천
     show-sql: true  # 실행되는 SQL 로그를 확인할 수 있게 해주는 설정
   sql:
     init:
