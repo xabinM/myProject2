@@ -1,9 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.member.Member;
-import com.example.demo.dto.SignupRequest;
+import com.example.demo.dto.auth.SignupRequest;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.security.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,15 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
-
-    public AuthService(JwtTokenProvider jwtTokenProvider, MemberRepository memberRepository) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.memberRepository = memberRepository;
-    }
 
     public String login(String username, String password) {
         Member member = memberRepository.findByUsername(username)

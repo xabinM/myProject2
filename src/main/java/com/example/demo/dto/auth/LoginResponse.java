@@ -1,7 +1,6 @@
-package com.example.demo.dto;
+package com.example.demo.dto.auth;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class LoginResponse {
