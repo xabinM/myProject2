@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -30,6 +31,19 @@ public class Recipe {
 
     private boolean deleted;
 
+    protected Recipe() {
+    }
+
+    public Recipe(String title, String imageUrl, String description, List<String> materials) {
+        this.title = title;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.deleted = false;
+        this.materials = materials.stream()
+                .map(material -> new RecipeMaterials(material, this))
+                .collect(Collectors.toList());
+    }
+
     public void editPartial(RecipeUpdateRequest request) {
         if (request.getTitle() != null)  {
             this.title = request.getTitle();
@@ -46,5 +60,9 @@ public class Recipe {
                 this.materials.add(new RecipeMaterials(materialName, this));
             }
         }
+    }
+
+    public void markDeleted() {
+        this.deleted = true;
     }
 }
