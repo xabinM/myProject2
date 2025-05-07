@@ -22,4 +22,13 @@ public class Member {
 
     @Email
     private String email;
+
+    public Member() {
+    }
+
+    public Member(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 }

@@ -35,11 +35,11 @@ public class AuthService {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
 
-        Member member = new Member();
-
-        member.setUsername(request.getUsername());
-        member.setPassword(request.getPassword());
-        member.setEmail(request.getEmail());
+        Member member = new Member(
+                request.getUsername(),
+                request.getPassword(),
+                request.getEmail()
+        );
 
         memberRepository.save(member);
     }
