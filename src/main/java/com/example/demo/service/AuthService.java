@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.domain.member.Member;
 import com.example.demo.dto.auth.SignupRequest;
+import com.example.demo.exception.Exception;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,10 @@ public class AuthService {
 
     public String login(String username, String password) {
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UsernameNotFoundException(Exception.MEMBER_NOT_FOUND_EXCEPTION.getMessage()));
 
         if (!member.getPassword().equals(password)) {
-            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+            throw new BadCredentialsException(Exception.PASSWORD_NOT_MATCH_EXCEPTION.getMessage());
         }
 
         return jwtTokenProvider.generateToken(member.getId().toString());
@@ -32,7 +33,7 @@ public class AuthService {
     public void signup(SignupRequest request) {
         Optional<Member> existingMember = memberRepository.findByUsername(request.getUsername());
         if (existingMember.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+            throw new IllegalArgumentException(Exception.SIGNUP_USERNAME_DUPLICATE_EXCEPTION.getMessage());
         }
 
         Member member = new Member(
