@@ -5,6 +5,7 @@ import com.example.demo.dto.auth.LoginRequest;
 import com.example.demo.dto.auth.LoginResponse;
 import com.example.demo.dto.auth.SignupRequest;
 import com.example.demo.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -52,5 +53,15 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<?> checkLogin(HttpServletRequest request) {
+        if (authService.isLogin(request)) {
+            System.out.println("여기냐?1");
+            return ResponseEntity.ok().build();
+        }
+        System.out.println("여기냐?2");
+        return ResponseEntity.badRequest().build();
     }
 }

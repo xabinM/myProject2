@@ -5,6 +5,8 @@ import com.example.demo.dto.auth.SignupRequest;
 import com.example.demo.exception.Exception;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.security.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,5 +45,11 @@ public class AuthService {
         );
 
         memberRepository.save(member);
+    }
+
+    public boolean isLogin(HttpServletRequest request) {
+        String token = jwtTokenProvider.resolveToken(request);
+
+        return token != null && jwtTokenProvider.validateToken(token);
     }
 }
