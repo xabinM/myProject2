@@ -7,6 +7,8 @@ import com.example.demo.dto.auth.SignupRequest;
 import com.example.demo.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +24,22 @@ public class AuthController {
         try {
             String token = authService.login(request.getUsername(), request.getPassword());
 
-            return ResponseEntity.ok(new LoginResponse(token));
+            ResponseCookie cookie = ResponseCookie.from("jwt", token)
+                    .httpOnly(true)
+                    .secure(true)
+                    .path("/")
+                    .maxAge(60 * 60)
+                    .sameSite("Strict")
+                    .build();
+
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                    .body(new LoginResponse("로그인 성공"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ErrorResponse(e.getMessage()));
         }
     }
 

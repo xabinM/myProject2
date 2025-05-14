@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor    // final로 선언된 필드를 자동으로 생성자 주입해주는 어노테이션
@@ -36,5 +38,18 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager (AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")  // 모든 URL 경로에 적용
+                        .allowedOrigins("http://localhost:5173")    // VUE 앱 돌고 있는 주소 명시
+                        .allowedMethods("*")    // GET, POST 등 모든 HTTP 메서드 허용
+                        .allowCredentials(true);    // 쿠키나 인증 헤더(JWT 토근)를 요청과 함께 보내기 허용
+            }
+        };
     }
 }
