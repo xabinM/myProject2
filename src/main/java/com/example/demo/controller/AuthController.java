@@ -27,7 +27,7 @@ public class AuthController {
 
             ResponseCookie cookie = ResponseCookie.from("jwt", token)
                     .httpOnly(true)
-                    .secure(true)
+                    .secure(false)
                     .path("/")
                     .maxAge(60 * 60)
                     .sameSite("Strict")
@@ -58,10 +58,9 @@ public class AuthController {
     @GetMapping("/check")
     public ResponseEntity<?> checkLogin(HttpServletRequest request) {
         if (authService.isLogin(request)) {
-            System.out.println("여기냐?1");
             return ResponseEntity.ok().build();
         }
-        System.out.println("여기냐?2");
+
         return ResponseEntity.badRequest().build();
     }
 }
