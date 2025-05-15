@@ -58,9 +58,10 @@ public class AuthController {
     @GetMapping("/check")
     public ResponseEntity<?> checkLogin(HttpServletRequest request) {
         if (authService.isLogin(request)) {
+            System.out.println("check : 여기냐 1");
             return ResponseEntity.ok().build();
         }
-
+        System.out.println("check : 여기냐 2");
         return ResponseEntity.badRequest().build();
     }
 }
