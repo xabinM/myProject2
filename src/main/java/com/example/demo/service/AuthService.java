@@ -21,13 +21,20 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
 
-    public String login(String username, String password) {
+    public Member authenticate(String username, String password) {
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(Exception.MEMBER_NOT_FOUND_EXCEPTION.getMessage()));
 
         if (!member.getPassword().equals(password)) {
             throw new BadCredentialsException(Exception.PASSWORD_NOT_MATCH_EXCEPTION.getMessage());
         }
+
+        return member;
+    }
+
+    public String getToken(String username) {
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(Exception.MEMBER_NOT_FOUND_EXCEPTION.getMessage()));
 
         return jwtTokenProvider.generateToken(member.getId().toString());
     }

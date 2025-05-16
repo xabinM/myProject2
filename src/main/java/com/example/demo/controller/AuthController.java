@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.member.Member;
 import com.example.demo.dto.*;
+import com.example.demo.dto.auth.LoginMemberDto;
 import com.example.demo.dto.auth.LoginRequest;
 import com.example.demo.dto.auth.LoginResponse;
 import com.example.demo.dto.auth.SignupRequest;
 import com.example.demo.service.AuthService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -25,24 +25,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
         try {
-            String token = authService.login(request.getUsername(), request.getPassword());
-
-            ResponseCookie cookie = ResponseCookie.from("jwt", token)
-                    .httpOnly(true)
-                    .secure(false)
-                    .path("/")
-                    .maxAge(60 * 60)
-                    .sameSite("Strict")
-                    .build();
+            Member member = authService.authenticate(request.getUsername(), request.getPassword());
+            String token = authService.getToken(request.getUsername());
 
             return ResponseEntity
-                    .ok()
-                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                    .body(new LoginResponse("로그인 성공"));
+                    .ok(new LoginResponse(
+                            new LoginMemberDto(member.getId(), member.getUsername(), member.getEmail()), token)
+                    );
         } catch (Exception e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new ErrorResponse(e.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }
     }
 
@@ -70,12 +61,12 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<?> logout() {
         ResponseCookie deleteCookie = ResponseCookie.from("jwt", "")
-                        .httpOnly(true)
-                        .secure(false)
-                        .path("/")
-                        .maxAge(0)
-                        .sameSite("Strict")
-                        .build();
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("Strict")
+                .build();
 
         return ResponseEntity
                 .ok()

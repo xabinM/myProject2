@@ -33,7 +33,6 @@ public class SecurityConfig {
                     config.setAllowedOrigins(List.of("http://localhost:5173"));
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     config.setAllowedHeaders(List.of("*"));
-                    config.setAllowCredentials(true);
                     return config;
                 }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -57,8 +56,7 @@ public class SecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")  // 모든 URL 경로에 적용
                         .allowedOrigins("http://localhost:5173")    // VUE 앱 돌고 있는 주소 명시
-                        .allowedMethods("*")    // GET, POST 등 모든 HTTP 메서드 허용
-                        .allowCredentials(true);    // 쿠키나 인증 헤더(JWT 토근)를 요청과 함께 보내기 허용
+                        .allowedMethods("*");    // GET, POST 등 모든 HTTP 메서드 허용
             }
         };
     }
