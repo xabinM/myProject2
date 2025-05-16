@@ -52,4 +52,7 @@ public class AuthService {
 
         return token != null && jwtTokenProvider.validateToken(token);
     }
+
+    public void logout(HttpServletRequest request) {
+    }
 }
