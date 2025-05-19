@@ -44,6 +44,7 @@ public class AuthController {
 
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         }
     }
@@ -57,20 +58,20 @@ public class AuthController {
         System.out.println("check : 여기냐 2");
         return ResponseEntity.badRequest().build();
     }
-
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
-        ResponseCookie deleteCookie = ResponseCookie.from("jwt", "")
-                .httpOnly(true)
-                .secure(false)
-                .path("/")
-                .maxAge(0)
-                .sameSite("Strict")
-                .build();
-
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
-                .build();
-    }
+    // 현재 브라우저에서 localStorage를 clear시키는 로그아웃 방법 사용중
+//    @PostMapping("/logout")
+//    public ResponseEntity<?> logout() {
+//        ResponseCookie deleteCookie = ResponseCookie.from("jwt", "")
+//                .httpOnly(true)
+//                .secure(false)
+//                .path("/")
+//                .maxAge(0)
+//                .sameSite("Strict")
+//                .build();
+//
+//        return ResponseEntity
+//                .ok()
+//                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+//                .build();
+//    }
 }
