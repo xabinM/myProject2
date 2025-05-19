@@ -1,5 +1,6 @@
 package com.example.demo.domain.recipe;
 
+import com.example.demo.domain.BaseTimeEntity;
 import com.example.demo.dto.recipe.request.RecipeUpdateRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
-public class Recipe {
+public class Recipe extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
